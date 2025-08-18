@@ -100,7 +100,7 @@ async function main() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'aistudio-system-profiles.json';
+    a.download = 'system-prompt-manager-for-ai-studio.json';
     a.click();
     URL.revokeObjectURL(url);
   });
