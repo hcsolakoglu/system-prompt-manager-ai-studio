@@ -2,12 +2,11 @@ import type { Profile } from '../shared/types';
 import { getState, setLastUsedProfile } from '../shared/storage';
 
 // Context Menus
-chrome.runtime.onInstalled.addListener(async () => {
+async function rebuildContextMenus() {
   try {
-    // Create context menus
-    await new Promise<void>((resolve) => {
-      chrome.contextMenus.removeAll(() => resolve());
-    });
+    const state = await getState();
+    await new Promise<void>((resolve) => { chrome.contextMenus.removeAll(() => resolve()); });
+    if (!state.settings.showContextMenu) return;
 
     chrome.contextMenus.create({
       id: 'open_profiles',
@@ -24,6 +23,16 @@ chrome.runtime.onInstalled.addListener(async () => {
     });
   } catch (e) {
     console.warn('contextMenus setup error', e);
+  }
+}
+
+chrome.runtime.onInstalled.addListener(async () => { await rebuildContextMenus(); });
+chrome.runtime.onStartup.addListener(async () => { await rebuildContextMenus(); });
+
+chrome.storage.onChanged.addListener((changes: { [key: string]: chrome.storage.StorageChange }, areaName: chrome.storage.AreaName) => {
+  if (areaName !== 'sync') return;
+  if (changes.settings) {
+    rebuildContextMenus();
   }
 });
 
