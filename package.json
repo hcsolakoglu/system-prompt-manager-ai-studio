@@ -7,6 +7,15 @@
     "dev": "vite",
     "build": "vite build"
   },
+  "author": "Hakan Can Solakoğlu (X: @HCSolakoglu)",
+  "homepage": "https://github.com/hcsolakoglu/system-prompt-manager-ai-studio",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hcsolakoglu/system-prompt-manager-ai-studio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hcsolakoglu/system-prompt-manager-ai-studio/issues"
+  },
   "devDependencies": {
     "@crxjs/vite-plugin": "^2.1.0",
     "chrome-types": "^0.1.266",

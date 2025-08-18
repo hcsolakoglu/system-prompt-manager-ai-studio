@@ -47,3 +47,10 @@ Rationale:
 
 ## License
 MIT
+
+## Built by
+
+Created and maintained by **Hakan Can Solakoğlu**.
+
+- X/Twitter: https://x.com/HCSolakoglu
+- GitHub: https://github.com/hcsolakoglu/system-prompt-manager-ai-studio

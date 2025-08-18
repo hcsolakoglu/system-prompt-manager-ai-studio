@@ -81,6 +81,7 @@
       .btn-primary:hover { background: color-mix(in srgb, var(--primary) 92%, #000 8%); color: var(--primary-ink); }
       li .actions button { background: var(--primary); color: var(--primary-ink); border-color: var(--primary); }
       li .actions button:hover { background: color-mix(in srgb, var(--primary) 92%, #000 8%); }
+      .footer { margin-top: 8px; display:flex; justify-content: space-between; align-items:center; }
     </style>
   </head>
   <body>
@@ -90,6 +91,10 @@
         <a class="small" href="#" id="openOptions">Manage</a>
       </div>
       <ul id="list"></ul>
+      <div class="footer">
+        <a class="small" href="https://x.com/HCSolakoglu" target="_blank" rel="noopener noreferrer">Built by @HCSolakoglu</a>
+        <a class="small" href="https://github.com/hcsolakoglu/system-prompt-manager-ai-studio" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
     </div>
     <script type="module" src="./main.ts"></script>
   </body>
