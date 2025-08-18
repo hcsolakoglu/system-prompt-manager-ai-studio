@@ -1,5 +1,7 @@
 # System Prompt Manager for AI Studio (Chrome MV3)
 
+Repository/Homepage: https://github.com/hcsolakoglu/system-prompt-manager-ai-studio
+
 Save and quickly insert reusable "System instructions" profiles on Google AI Studio.
 
 - Manifest v3, TypeScript, Vite + @crxjs
@@ -14,7 +16,7 @@ Not affiliated with or endorsed by Google. Do not use Google/AI Studio logos in 
 
 ## Privacy
 
-This extension does not collect, transmit, sell, or share any personal information. Your data stays in your browser via Chrome storage. See the full policy in [PRIVACY.md](./PRIVACY.md).
+This extension does not collect, transmit, sell, or share any personal information. Your data stays in your browser via Chrome storage. See the full policy in [PRIVACY.md](https://github.com/hcsolakoglu/system-prompt-manager-ai-studio/blob/main/PRIVACY.md).
 
 ## Development
 
