@@ -29,8 +29,8 @@ pnpm dev # or npm run dev
 3. In Chrome: Extensions → Enable Developer mode → Load unpacked → select the `dist` folder created by Vite.
 
 ## Shortcuts
-- Open popup: Ctrl/Cmd+Shift+P
-- Insert last profile: Ctrl/Cmd+Shift+I
+- Open popup: Alt+Shift+1
+- Insert last profile: Alt+Shift+2
 
 These can be changed at chrome://extensions/shortcuts
 
