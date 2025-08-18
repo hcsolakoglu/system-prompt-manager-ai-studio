@@ -27,11 +27,11 @@
   ],
   "commands": {
     "open_palette": {
-      "suggested_key": { "default": "Ctrl+Shift+P", "mac": "Command+Shift+P" },
+      "suggested_key": { "default": "Alt+Shift+1", "mac": "Alt+Shift+1" },
       "description": "Open profiles popup"
     },
     "insert_last_profile": {
-      "suggested_key": { "default": "Ctrl+Shift+I", "mac": "Command+Shift+I" },
+      "suggested_key": { "default": "Alt+Shift+2", "mac": "Alt+Shift+2" },
       "description": "Insert last used profile"
     }
   }

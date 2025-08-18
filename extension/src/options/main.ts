@@ -53,6 +53,7 @@ async function refresh() {
   // settings
   el<HTMLSelectElement>('insertMode').value = state.settings.insertMode;
   el<HTMLInputElement>('showContextMenu').checked = !!state.settings.showContextMenu;
+  el<HTMLInputElement>('confirmOverwriteSystem').checked = state.settings.confirmOverwriteSystem ?? true;
   el<HTMLSelectElement>('theme').value = state.settings.theme ?? 'auto';
   applyTheme(state.settings.theme ?? 'auto');
   renderRows(state.profiles);
@@ -80,6 +81,11 @@ async function main() {
   el<HTMLInputElement>('showContextMenu').addEventListener('change', async (e) => {
     const value = (e.target as HTMLInputElement).checked;
     await setSettings({ showContextMenu: value });
+  });
+
+  el<HTMLInputElement>('confirmOverwriteSystem').addEventListener('change', async (e) => {
+    const value = (e.target as HTMLInputElement).checked;
+    await setSettings({ confirmOverwriteSystem: value });
   });
 
   el<HTMLSelectElement>('theme').addEventListener('change', async (e) => {

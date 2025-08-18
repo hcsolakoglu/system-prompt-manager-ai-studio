@@ -16,6 +16,7 @@ export interface Settings {
   insertMode: InsertMode; // default: 'replace'
   showContextMenu: boolean; // default: true
   theme: Theme; // default: 'auto'
+  confirmOverwriteSystem: boolean; // default: true
 }
 
 export interface StorageSchema {

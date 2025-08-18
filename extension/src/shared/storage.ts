@@ -4,6 +4,7 @@ const DEFAULT_SETTINGS: Settings = {
   insertMode: 'replace',
   showContextMenu: true,
   theme: 'auto',
+  confirmOverwriteSystem: true,
 };
 
 const DEFAULT_PROFILE: Profile = {

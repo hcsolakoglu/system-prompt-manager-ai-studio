@@ -1,5 +1,6 @@
 import type { RuntimeMessage } from '../shared/messages';
 import type { InsertMode } from '../shared/types';
+import { getState, setSettings } from '../shared/storage';
 
 function isTextarea(el: Element | null): el is HTMLTextAreaElement {
   return !!el && el.tagName.toLowerCase() === 'textarea';
@@ -89,6 +90,20 @@ async function handleInsertAsync(text: string, mode: InsertMode = 'replace') {
     console.warn('[AI Studio Profiles] No suitable system message field found.');
     return;
   }
+  // Confirm overwrite if replacing and content already exists
+  if (mode === 'replace') {
+    const current = isTextarea(target) ? (target as HTMLTextAreaElement).value : (target as HTMLElement).innerText || '';
+    if (current.trim().length > 0) {
+      const state = await getState();
+      if (state.settings.confirmOverwriteSystem) {
+        const res = await confirmOverwriteModal();
+        if (!res.confirmed) return;
+        if (res.dontAskAgain) {
+          await setSettings({ confirmOverwriteSystem: false });
+        }
+      }
+    }
+  }
   applyInsert(target, text, mode);
 }
 
@@ -131,6 +146,118 @@ async function waitForSystemTextarea(timeoutMs = 5000): Promise<HTMLTextAreaElem
       }
     });
     observer.observe(document.documentElement, { childList: true, subtree: true });
+  });
+}
+
+// Lightweight confirm modal isolated with Shadow DOM
+function confirmOverwriteModal(): Promise<{ confirmed: boolean; dontAskAgain: boolean }> {
+  return new Promise((resolve) => {
+    const host = document.createElement('div');
+    host.style.all = 'initial';
+    host.style.position = 'fixed';
+    host.style.inset = '0';
+    host.style.zIndex = '2147483647';
+    host.style.pointerEvents = 'none';
+    const shadow = host.attachShadow({ mode: 'open' });
+
+    const overlay = document.createElement('div');
+    overlay.setAttribute('part', 'overlay');
+    overlay.style.position = 'fixed';
+    overlay.style.inset = '0';
+    overlay.style.background = 'rgba(0,0,0,0.35)';
+    overlay.style.display = 'flex';
+    overlay.style.alignItems = 'center';
+    overlay.style.justifyContent = 'center';
+    overlay.style.pointerEvents = 'auto';
+
+    const panel = document.createElement('div');
+    panel.setAttribute('part', 'panel');
+    panel.style.maxWidth = '420px';
+    panel.style.width = 'min(92vw, 420px)';
+    panel.style.background = 'white';
+    panel.style.color = '#111';
+    panel.style.borderRadius = '12px';
+    panel.style.boxShadow = '0 10px 30px rgba(0,0,0,0.25)';
+    panel.style.padding = '16px';
+    panel.style.fontFamily = 'system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, sans-serif';
+
+    const title = document.createElement('div');
+    title.textContent = 'Overwrite system instructions?';
+    title.style.fontSize = '16px';
+    title.style.fontWeight = '600';
+    title.style.marginBottom = '8px';
+
+    const body = document.createElement('div');
+    body.textContent = 'There is already text in the System instructions. Replacing it will discard the current text.';
+    body.style.fontSize = '13px';
+    body.style.lineHeight = '1.5';
+    body.style.marginBottom = '12px';
+
+    const askWrap = document.createElement('label');
+    askWrap.style.display = 'flex';
+    askWrap.style.alignItems = 'center';
+    askWrap.style.gap = '8px';
+    askWrap.style.margin = '8px 0 16px';
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    const cbTxt = document.createElement('span');
+    cbTxt.textContent = "Don't ask again";
+    cbTxt.style.fontSize = '12px';
+    askWrap.append(cb, cbTxt);
+
+    const btns = document.createElement('div');
+    btns.style.display = 'flex';
+    btns.style.justifyContent = 'flex-end';
+    btns.style.gap = '8px';
+
+    const cancel = document.createElement('button');
+    cancel.textContent = 'Cancel';
+    cancel.style.padding = '6px 12px';
+    cancel.style.border = '1px solid #dadce0';
+    cancel.style.background = 'white';
+    cancel.style.borderRadius = '8px';
+    cancel.style.cursor = 'pointer';
+
+    const confirm = document.createElement('button');
+    confirm.textContent = 'Replace';
+    confirm.style.padding = '6px 12px';
+    confirm.style.border = '1px solid #1a73e8';
+    confirm.style.background = '#1a73e8';
+    confirm.style.color = '#fff';
+    confirm.style.borderRadius = '8px';
+    confirm.style.cursor = 'pointer';
+
+    btns.append(cancel, confirm);
+    panel.append(title, body, askWrap, btns);
+    overlay.append(panel);
+    shadow.append(overlay);
+    document.documentElement.appendChild(host);
+
+    const cleanup = () => host.remove();
+
+    cancel.addEventListener('click', () => {
+      cleanup();
+      resolve({ confirmed: false, dontAskAgain: false });
+    });
+    confirm.addEventListener('click', () => {
+      const dont = !!cb.checked;
+      cleanup();
+      resolve({ confirmed: true, dontAskAgain: dont });
+    });
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        cleanup();
+        resolve({ confirmed: false, dontAskAgain: false });
+      }
+    });
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        window.removeEventListener('keydown', onKey, true);
+        cleanup();
+        resolve({ confirmed: false, dontAskAgain: false });
+      }
+    };
+    window.addEventListener('keydown', onKey, true);
   });
 }
 
