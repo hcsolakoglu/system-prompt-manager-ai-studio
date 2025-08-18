@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Profiles</title>
+    <style>
+      :root {
+        --bg: #f7f7f8;
+        --fg: #111;
+        --muted: #667085;
+        --border: #e5e7eb;
+        --card: #fff;
+        --primary: #2563eb;
+        --primary-ink: #fff;
+        --ring: #3b82f6;
+        --radius: 10px;
+      }
+      /* Auto dark based on system */
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0b0b0c;
+          --fg: #e5e7eb;
+          --muted: #9aa4b2;
+          --border: #2a2f3a;
+          --card: #111317;
+          --primary: #3b82f6;
+          --primary-ink: #fff;
+          --ring: #60a5fa;
+        }
+      }
+      /* Manual override via attribute */
+      [data-theme="light"] {
+        --bg: #f7f7f8;
+        --fg: #111;
+        --muted: #667085;
+        --border: #e5e7eb;
+        --card: #fff;
+        --primary: #2563eb;
+        --primary-ink: #fff;
+        --ring: #3b82f6;
+      }
+      [data-theme="dark"] {
+        --bg: #0b0b0c;
+        --fg: #e5e7eb;
+        --muted: #9aa4b2;
+        --border: #2a2f3a;
+        --card: #111317;
+        --primary: #3b82f6;
+        --primary-ink: #fff;
+        --ring: #60a5fa;
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; padding: 0; background: var(--bg); color: var(--fg); }
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+      .container {
+        padding: 12px;
+        width: min(420px, 92vw);
+        min-width: 360px;
+        max-width: 480px;
+      }
+      .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; box-shadow: 0 1px 2px rgba(16,24,40,0.04); }
+
+      .row { display:flex; gap:8px; justify-content: space-between; align-items:center; }
+      input[type="search"] {
+        width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--fg);
+      }
+      input[type="search"]:focus { outline: none; border-color: var(--ring); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 20%, transparent); }
+      .small { font-size: 12px; color: var(--muted); text-decoration: none; }
+      .small:hover { text-decoration: underline; }
+
+      ul { list-style: none; padding: 0; margin: 8px 0 0; max-height: min(60vh, 480px); overflow: auto; }
+      li { padding: 10px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; cursor: pointer; background: var(--card); }
+      li:hover { background: color-mix(in srgb, var(--card) 90%, var(--bg) 10%); }
+      .name { font-weight: 600; }
+      .content { color: var(--muted); white-space: pre-line; margin-top: 4px; font-size: 12px; }
+      .actions { text-align: right; margin-top: 8px; }
+      button { padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--fg); cursor: pointer; }
+      button:not(.btn-primary):hover { background: color-mix(in srgb, var(--card) 90%, var(--bg) 10%); }
+      .btn-primary { background: var(--primary); color: var(--primary-ink); border-color: var(--primary); }
+      .btn-primary:hover { background: color-mix(in srgb, var(--primary) 92%, #000 8%); color: var(--primary-ink); }
+      li .actions button { background: var(--primary); color: var(--primary-ink); border-color: var(--primary); }
+      li .actions button:hover { background: color-mix(in srgb, var(--primary) 92%, #000 8%); }
+    </style>
+  </head>
+  <body>
+    <div class="container card">
+      <div class="row">
+        <input id="search" type="search" placeholder="Search profiles..." autofocus />
+        <a class="small" href="#" id="openOptions">Manage</a>
+      </div>
+      <ul id="list"></ul>
+    </div>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

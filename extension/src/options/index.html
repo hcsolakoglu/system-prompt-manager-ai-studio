@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Studio System Profiles — Options</title>
+    <style>
+      :root {
+        --bg: #f7f7f8;
+        --fg: #111;
+        --muted: #667085;
+        --border: #e5e7eb;
+        --card: #fff;
+        --primary: #2563eb;
+        --primary-ink: #fff;
+        --ring: #3b82f6;
+        --radius: 10px;
+      }
+      /* Auto dark based on system */
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0b0b0c;
+          --fg: #e5e7eb;
+          --muted: #9aa4b2;
+          --border: #2a2f3a;
+          --card: #111317;
+          --primary: #3b82f6;
+          --primary-ink: #fff;
+          --ring: #60a5fa;
+        }
+      }
+      /* Manual override */
+      [data-theme="light"] {
+        --bg: #f7f7f8;
+        --fg: #111;
+        --muted: #667085;
+        --border: #e5e7eb;
+        --card: #fff;
+        --primary: #2563eb;
+        --primary-ink: #fff;
+        --ring: #3b82f6;
+      }
+      [data-theme="dark"] {
+        --bg: #0b0b0c;
+        --fg: #e5e7eb;
+        --muted: #9aa4b2;
+        --border: #2a2f3a;
+        --card: #111317;
+        --primary: #3b82f6;
+        --primary-ink: #fff;
+        --ring: #60a5fa;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        margin: 0; padding: 24px; display: flex; justify-content: center; background: var(--bg); color: var(--fg);
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      }
+      .container { width: 100%; max-width: 960px; }
+      h1 { font-size: 20px; margin: 0 0 16px; }
+      h2 { font-size: 16px; margin: 0 0 12px; }
+      .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; box-shadow: 0 1px 2px rgba(16,24,40,0.04); }
+      .card + .card { margin-top: 16px; }
+
+      .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+
+      label { display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: var(--muted); }
+      input[type="text"], input[type="file"], input[type="checkbox"], select, textarea, input:not([type]) {
+        font: inherit;
+      }
+      input, select, textarea {
+        width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--fg);
+      }
+      input:focus, select:focus, textarea:focus { outline: none; border-color: var(--ring); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 20%, transparent); }
+      textarea { height: 160px; resize: vertical; }
+
+      .row { display: flex; gap: 8px; margin: 8px 0; }
+      .right { justify-content: flex-end; }
+
+      button { padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--fg); cursor: pointer; }
+      button:not(.btn-primary):hover { background: color-mix(in srgb, var(--card) 90%, var(--bg) 10%); }
+      .btn-primary { background: var(--primary); color: var(--primary-ink); border-color: var(--primary); }
+      .btn-primary:hover { background: color-mix(in srgb, var(--primary) 92%, #000 8%); color: var(--primary-ink); }
+
+      table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; color: var(--fg); }
+      thead th { background: color-mix(in srgb, var(--bg) 85%, var(--card) 15%); color: var(--fg); font-weight: 600; }
+      th, td { border-bottom: 1px solid var(--border); padding: 10px 12px; text-align: left; vertical-align: top; }
+      tbody tr:nth-child(odd) { background: color-mix(in srgb, var(--card) 92%, var(--bg) 8%); }
+      tbody tr:last-child td { border-bottom: none; }
+      .actions { white-space: nowrap; }
+
+      .muted { color: var(--muted); font-size: 12px; margin-top: 12px; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>AI Studio System Profiles — Options</h1>
+
+      <section class="card">
+        <h2>Settings</h2>
+        <div class="grid">
+          <label>Insert mode
+            <select id="insertMode">
+              <option value="replace">Replace</option>
+              <option value="append">Append</option>
+              <option value="prepend">Prepend</option>
+            </select>
+          </label>
+          <label>
+            <span>Show context menu on AI Studio</span>
+            <input type="checkbox" id="showContextMenu">
+          </label>
+          <label>Theme
+            <select id="theme">
+              <option value="auto">Auto (system)</option>
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Profiles</h2>
+        <div class="row">
+          <input id="name" placeholder="Profile name" />
+          <button id="add" class="btn-primary">Add / Update</button>
+        </div>
+        <textarea id="content" placeholder="Profile content..."></textarea>
+        <div class="row right">
+          <button id="export">Export JSON</button>
+          <input type="file" id="importFile" accept="application/json" style="display:none" />
+          <button id="import">Import JSON</button>
+        </div>
+        <table>
+          <thead>
+            <tr><th style="width: 240px;">Name</th><th>Content</th><th class="actions">Actions</th></tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+        <p class="muted">Tip: Keyboard shortcuts can be changed in chrome://extensions/shortcuts</p>
+      </section>
+
+      <script type="module" src="./main.ts"></script>
+    </div>
+  </body>
+</html>

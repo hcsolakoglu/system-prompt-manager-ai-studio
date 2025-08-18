@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "AI Studio System Profiles",
+  "description": "Save and quickly insert system message profiles on Google AI Studio.",
+  "version": "0.1.0",
+  "action": { "default_popup": "extension/src/popup/index.html" },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "contextMenus"
+  ],
+  "host_permissions": [
+    "https://aistudio.google.com/*"
+  ],
+  "background": {
+    "service_worker": "extension/src/background/index.ts",
+    "type": "module"
+  },
+  "options_page": "extension/src/options/index.html",
+  "content_scripts": [
+    {
+      "matches": ["https://aistudio.google.com/*"],
+      "js": ["extension/src/content/index.ts"],
+      "run_at": "document_idle"
+    }
+  ],
+  "commands": {
+    "open_palette": {
+      "suggested_key": { "default": "Ctrl+Shift+P", "mac": "Command+Shift+P" },
+      "description": "Open profiles popup"
+    },
+    "insert_last_profile": {
+      "suggested_key": { "default": "Ctrl+Shift+I", "mac": "Command+Shift+I" },
+      "description": "Insert last used profile"
+    }
+  }
+}
