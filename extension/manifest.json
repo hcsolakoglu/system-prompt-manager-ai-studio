@@ -1,6 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "AI Studio System Profiles",
+  "name": "System Prompt Manager for AI Studio",
+  "short_name": "System Prompt Manager",
   "description": "Save and quickly insert system message profiles on Google AI Studio.",
   "version": "0.1.0",
   "action": { "default_popup": "extension/src/popup/index.html" },

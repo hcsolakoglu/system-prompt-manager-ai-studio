@@ -1,4 +1,4 @@
-# AI Studio System Profiles (Chrome MV3)
+# System Prompt Manager for AI Studio (Chrome MV3)
 
 Save and quickly insert reusable "System instructions" profiles on Google AI Studio.
 
