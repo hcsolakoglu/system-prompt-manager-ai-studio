@@ -23,7 +23,7 @@ const DEFAULT_STATE: StorageSchema = {
 };
 
 export async function getState(): Promise<StorageSchema> {
-  const raw = await chrome.storage.sync.get(null);
+  const raw = (await chrome.storage.sync.get()) as Partial<StorageSchema>;
   if (!raw || Object.keys(raw).length === 0) {
     await chrome.storage.sync.set(DEFAULT_STATE);
     return structuredClone(DEFAULT_STATE);
@@ -31,7 +31,7 @@ export async function getState(): Promise<StorageSchema> {
   // hydrate with defaults
   const state: StorageSchema = {
     profiles: Array.isArray(raw.profiles) ? raw.profiles : [],
-    lastUsedProfileId: raw.lastUsedProfileId,
+    lastUsedProfileId: raw.lastUsedProfileId as string | undefined,
     settings: { ...DEFAULT_SETTINGS, ...(raw.settings || {}) },
     version: typeof raw.version === 'number' ? raw.version : 1,
   };

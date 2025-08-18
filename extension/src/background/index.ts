@@ -18,14 +18,14 @@ async function rebuildContextMenus() {
         title: 'Open Profiles…',
         contexts: ['all'],
         documentUrlPatterns: ['https://aistudio.google.com/*']
-      }, () => { void chrome.runtime.lastError; });
+      }, () => { void (chrome.runtime as any).lastError; });
 
       chrome.contextMenus.create({
         id: 'insert_last_profile',
         title: 'Insert last profile',
         contexts: ['all'],
         documentUrlPatterns: ['https://aistudio.google.com/*']
-      }, () => { void chrome.runtime.lastError; });
+      }, () => { void (chrome.runtime as any).lastError; });
     } catch (e) {
       console.warn('contextMenus setup error', e);
     } finally {
@@ -38,7 +38,7 @@ async function rebuildContextMenus() {
 chrome.runtime.onInstalled.addListener(async () => { await rebuildContextMenus(); });
 chrome.runtime.onStartup.addListener(async () => { await rebuildContextMenus(); });
 
-chrome.storage.onChanged.addListener((changes: { [key: string]: chrome.storage.StorageChange }, areaName: chrome.storage.AreaName) => {
+chrome.storage.onChanged.addListener((changes: { [key: string]: chrome.storage.StorageChange }, areaName: string) => {
   if (areaName !== 'sync') return;
   if (changes.settings) {
     rebuildContextMenus();

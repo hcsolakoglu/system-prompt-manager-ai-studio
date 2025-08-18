@@ -8,7 +8,7 @@
     "jsx": "react-jsx",
     "skipLibCheck": true,
     "noEmit": true,
-    "types": ["chrome", "vite/client"]
+    "types": ["chrome-types", "vite/client"]
   },
   "include": ["extension/src/**/*", "vite.config.ts"]
 }
