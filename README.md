@@ -8,6 +8,14 @@ Save and quickly insert reusable "System instructions" profiles on Google AI Stu
 - Background handles keyboard shortcuts and context menu
 - Content script inserts into the System instructions textarea (selectors tuned from live DOM)
 
+## Disclaimer
+
+Not affiliated with or endorsed by Google. Do not use Google/AI Studio logos in the extension, store listing, or any promotional material. "Google" and "Google AI Studio" are trademarks of Google LLC; names are used only to indicate compatibility.
+
+## Privacy
+
+This extension does not collect, transmit, sell, or share any personal information. Your data stays in your browser via Chrome storage. See the full policy in [PRIVACY.md](./PRIVACY.md).
+
 ## Development
 
 1. Install deps
@@ -29,6 +37,11 @@ These can be changed at chrome://extensions/shortcuts
 ## Permissions
 - storage, activeTab, scripting, contextMenus, commands
 - host_permissions: https://aistudio.google.com/*
+
+Rationale:
+- `storage`: Save profiles and settings locally (and sync if Chrome sync is enabled).
+- `contextMenus`: Provide right‑click actions for quick access.
+- `activeTab` + `scripting`: Inject content script on AI Studio pages to insert the selected profile when requested.
 
 ## License
 MIT
