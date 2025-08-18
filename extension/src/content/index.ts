@@ -96,7 +96,9 @@ async function handleInsertAsync(text: string, mode: InsertMode = 'replace') {
     if (current.trim().length > 0) {
       const state = await getState();
       if (state.settings.confirmOverwriteSystem) {
-        const res = await confirmOverwriteModal();
+        const theme = state.settings.theme ?? 'auto';
+        const darkPreferred = theme === 'dark' || (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        const res = await confirmOverwriteModal(darkPreferred);
         if (!res.confirmed) return;
         if (res.dontAskAgain) {
           await setSettings({ confirmOverwriteSystem: false });
@@ -150,7 +152,7 @@ async function waitForSystemTextarea(timeoutMs = 5000): Promise<HTMLTextAreaElem
 }
 
 // Lightweight confirm modal isolated with Shadow DOM
-function confirmOverwriteModal(): Promise<{ confirmed: boolean; dontAskAgain: boolean }> {
+function confirmOverwriteModal(darkPreferred = false): Promise<{ confirmed: boolean; dontAskAgain: boolean }> {
   return new Promise((resolve) => {
     const host = document.createElement('div');
     host.style.all = 'initial';
@@ -158,13 +160,15 @@ function confirmOverwriteModal(): Promise<{ confirmed: boolean; dontAskAgain: bo
     host.style.inset = '0';
     host.style.zIndex = '2147483647';
     host.style.pointerEvents = 'none';
+    // Ensure native controls match
+    (host.style as any).colorScheme = darkPreferred ? 'dark' : 'light';
     const shadow = host.attachShadow({ mode: 'open' });
 
     const overlay = document.createElement('div');
     overlay.setAttribute('part', 'overlay');
     overlay.style.position = 'fixed';
     overlay.style.inset = '0';
-    overlay.style.background = 'rgba(0,0,0,0.35)';
+    overlay.style.background = darkPreferred ? 'rgba(0,0,0,0.55)' : 'rgba(0,0,0,0.35)';
     overlay.style.display = 'flex';
     overlay.style.alignItems = 'center';
     overlay.style.justifyContent = 'center';
@@ -174,10 +178,10 @@ function confirmOverwriteModal(): Promise<{ confirmed: boolean; dontAskAgain: bo
     panel.setAttribute('part', 'panel');
     panel.style.maxWidth = '420px';
     panel.style.width = 'min(92vw, 420px)';
-    panel.style.background = 'white';
-    panel.style.color = '#111';
+    panel.style.background = darkPreferred ? '#2b2b2b' : 'white';
+    panel.style.color = darkPreferred ? '#e9eaee' : '#111';
     panel.style.borderRadius = '12px';
-    panel.style.boxShadow = '0 10px 30px rgba(0,0,0,0.25)';
+    panel.style.boxShadow = darkPreferred ? '0 10px 30px rgba(0,0,0,0.6)' : '0 10px 30px rgba(0,0,0,0.25)';
     panel.style.padding = '16px';
     panel.style.fontFamily = 'system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, sans-serif';
 
@@ -213,8 +217,9 @@ function confirmOverwriteModal(): Promise<{ confirmed: boolean; dontAskAgain: bo
     const cancel = document.createElement('button');
     cancel.textContent = 'Cancel';
     cancel.style.padding = '6px 12px';
-    cancel.style.border = '1px solid #dadce0';
-    cancel.style.background = 'white';
+    cancel.style.border = darkPreferred ? '1px solid #3c4043' : '1px solid #dadce0';
+    cancel.style.background = darkPreferred ? '#1f1f1f' : 'white';
+    cancel.style.color = darkPreferred ? '#e9eaee' : '#1f1f1f';
     cancel.style.borderRadius = '8px';
     cancel.style.cursor = 'pointer';
 
