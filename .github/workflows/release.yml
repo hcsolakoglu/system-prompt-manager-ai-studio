@@ -9,6 +9,8 @@ on:
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -41,6 +43,13 @@ jobs:
           cd dist
           zip -r ../release/${ZIP_NAME} .
           cd -
+
+      - name: Upload Chrome Web Store zip artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: chrome-web-store-${{ env.VERSION }}
+          path: release/*.zip
+          if-no-files-found: error
 
       - name: Upload dist artifact
         uses: actions/upload-artifact@v4
