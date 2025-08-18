@@ -1,29 +1,38 @@
 import type { Profile } from '../shared/types';
 import { getState, setLastUsedProfile } from '../shared/storage';
 
+// Ensure context menu rebuilds don't overlap (which can cause duplicate-id errors)
+let rebuildInFlight: Promise<void> | null = null;
+
 // Context Menus
 async function rebuildContextMenus() {
-  try {
-    const state = await getState();
-    await new Promise<void>((resolve) => { chrome.contextMenus.removeAll(() => resolve()); });
-    if (!state.settings.showContextMenu) return;
+  if (rebuildInFlight) return rebuildInFlight;
+  rebuildInFlight = (async () => {
+    try {
+      const state = await getState();
+      await new Promise<void>((resolve) => { chrome.contextMenus.removeAll(() => resolve()); });
+      if (!state.settings.showContextMenu) return;
 
-    chrome.contextMenus.create({
-      id: 'open_profiles',
-      title: 'Open Profiles…',
-      contexts: ['all'],
-      documentUrlPatterns: ['https://aistudio.google.com/*']
-    });
+      chrome.contextMenus.create({
+        id: 'open_profiles',
+        title: 'Open Profiles…',
+        contexts: ['all'],
+        documentUrlPatterns: ['https://aistudio.google.com/*']
+      }, () => { void chrome.runtime.lastError; });
 
-    chrome.contextMenus.create({
-      id: 'insert_last_profile',
-      title: 'Insert last profile',
-      contexts: ['all'],
-      documentUrlPatterns: ['https://aistudio.google.com/*']
-    });
-  } catch (e) {
-    console.warn('contextMenus setup error', e);
-  }
+      chrome.contextMenus.create({
+        id: 'insert_last_profile',
+        title: 'Insert last profile',
+        contexts: ['all'],
+        documentUrlPatterns: ['https://aistudio.google.com/*']
+      }, () => { void chrome.runtime.lastError; });
+    } catch (e) {
+      console.warn('contextMenus setup error', e);
+    } finally {
+      rebuildInFlight = null;
+    }
+  })();
+  return rebuildInFlight;
 }
 
 chrome.runtime.onInstalled.addListener(async () => { await rebuildContextMenus(); });
