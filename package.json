@@ -1,5 +1,5 @@
 {
-  "name": "aistudio-system-profiles",
+  "name": "system-prompt-manager-for-ai-studio",
   "version": "0.1.0",
   "private": true,
   "type": "module",
