@@ -75,7 +75,7 @@ MIT
 
 ## Built by
 
-Created and maintained by **Hakan Can Solakoğlu**.
+Created and maintained by **Hasan Can Solakoğlu**.
 
 - X/Twitter: https://x.com/HCSolakoglu
 - GitHub: https://github.com/hcsolakoglu/system-prompt-manager-ai-studio
