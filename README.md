@@ -10,6 +10,30 @@ Save and quickly insert reusable "System instructions" profiles on Google AI Stu
 - Background handles keyboard shortcuts and context menu
 - Content script inserts into the System instructions textarea (selectors tuned from live DOM)
 
+## Install on Chrome and Chromium-based browsers
+
+1. Build the extension
+    - `pnpm build` (or `npm run build`)
+2. Open your browser’s extensions page
+    - Chrome: `chrome://extensions`
+    - Microsoft Edge: `edge://extensions`
+    - Brave: `brave://extensions`
+    - Opera: `opera://extensions`
+    - Vivaldi: `vivaldi://extensions`
+3. Enable Developer mode
+4. Click "Load unpacked" and select the `dist` folder created by the build
+5. Optional: Pin the extension to the toolbar for quicker access
+6. Update: After rebuilding, click "Reload" on the extension card
+
+### Install from GitHub Releases (no build)
+
+1. Go to Releases: https://github.com/hcsolakoglu/system-prompt-manager-ai-studio/releases
+2. Download the latest prebuilt archive
+3. Extract the archive locally
+4. Open your browser’s extensions page and enable Developer mode
+5. Click "Load unpacked" and select the extracted folder that contains `manifest.json` (often `dist`)
+6. Optional: Click "Reload" on the extension card after future updates
+
 ## Disclaimer
 
 Not affiliated with or endorsed by Google. Do not use Google/AI Studio logos in the extension, store listing, or any promotional material. "Google" and "Google AI Studio" are trademarks of Google LLC; names are used only to indicate compatibility.
