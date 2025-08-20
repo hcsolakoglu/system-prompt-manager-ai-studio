@@ -12,6 +12,16 @@ Save and quickly insert reusable "System instructions" profiles on Google AI Stu
 
 ## Install on Chrome and Chromium-based browsers
 
+### Install from GitHub Releases (no build)
+
+1. Go to Releases: https://github.com/hcsolakoglu/system-prompt-manager-ai-studio/releases
+2. Download the latest prebuilt archive
+3. Extract the archive locally
+4. Open your browser’s extensions page and enable Developer mode
+5. Click "Load unpacked" and select the extracted folder that contains `manifest.json` (often `dist`)
+6. Optional: Click "Reload" on the extension card after future updates
+
+
 1. Build the extension
     - `pnpm build` (or `npm run build`)
 2. Open your browser’s extensions page
@@ -24,15 +34,6 @@ Save and quickly insert reusable "System instructions" profiles on Google AI Stu
 4. Click "Load unpacked" and select the `dist` folder created by the build
 5. Optional: Pin the extension to the toolbar for quicker access
 6. Update: After rebuilding, click "Reload" on the extension card
-
-### Install from GitHub Releases (no build)
-
-1. Go to Releases: https://github.com/hcsolakoglu/system-prompt-manager-ai-studio/releases
-2. Download the latest prebuilt archive
-3. Extract the archive locally
-4. Open your browser’s extensions page and enable Developer mode
-5. Click "Load unpacked" and select the extracted folder that contains `manifest.json` (often `dist`)
-6. Optional: Click "Reload" on the extension card after future updates
 
 ## Disclaimer
 
