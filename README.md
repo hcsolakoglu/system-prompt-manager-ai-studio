@@ -21,7 +21,7 @@ Save and quickly insert reusable "System instructions" profiles on Google AI Stu
 5. Click "Load unpacked" and select the extracted folder that contains `manifest.json` (often `dist`)
 6. Optional: Click "Reload" on the extension card after future updates
 
-
+## Installing the extension by building it:
 1. Build the extension
     - `pnpm build` (or `npm run build`)
 2. Open your browser’s extensions page
