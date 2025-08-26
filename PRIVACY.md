@@ -1,6 +1,6 @@
 # Privacy Policy
 
-Last updated: 2025-08-18
+Last updated: 2025-08-26
 
 System Prompt Manager for AI Studio (the "Extension") is an open‑source Chrome extension. We care about your privacy and designed the Extension to operate entirely in your browser.
 
@@ -17,7 +17,8 @@ System Prompt Manager for AI Studio (the "Extension") is an open‑source Chrome
 ## Permissions rationale
 - `storage`: Save your profiles and settings.
 - `contextMenus`: Provide quick actions from the right‑click menu.
-- `activeTab` and `scripting`: Inject the content script on AI Studio pages when needed to perform the requested actions (e.g., insert a selected profile).
+- `activeTab`: After a user gesture (e.g., opening the popup, using a shortcut, or clicking a context menu), allows the extension to identify the active tab and send a message to the content script to perform the insertion.
+- Content script is statically declared in `manifest.json` and runs only on the allowed host. No dynamic code injection (`scripting`) is used, and the broader `tabs` permission is not requested.
 
 ## Third parties
 - The Extension does not use third‑party analytics, ad networks, or trackers.
@@ -31,3 +32,4 @@ We may update this document over time. Material changes will be reflected in the
 
 ## Contact
 For questions or issues, please open an issue in this repository.
+

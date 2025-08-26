@@ -62,13 +62,14 @@ pnpm dev # or npm run dev
 These can be changed at chrome://extensions/shortcuts
 
 ## Permissions
-- storage, activeTab, scripting, contextMenus, commands
-- host_permissions: https://aistudio.google.com/*
+- storage, activeTab, contextMenus
+- content_scripts matches: https://aistudio.google.com/*
 
 Rationale:
 - `storage`: Save profiles and settings locally (and sync if Chrome sync is enabled).
+- `activeTab`: Access the currently active tab (after a user action like opening the popup or using a shortcut) to query it and send a message to the content script that performs insertion.
 - `contextMenus`: Provide right‑click actions for quick access.
-- `activeTab` + `scripting`: Inject content script on AI Studio pages to insert the selected profile when requested.
+- Content script is statically declared in `manifest.json` and runs only on `https://aistudio.google.com/*`. No dynamic code injection (`scripting`) is used, and we do not request the broader `tabs` permission.
 
 ## License
 MIT

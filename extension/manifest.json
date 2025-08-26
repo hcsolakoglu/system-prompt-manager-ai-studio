@@ -25,9 +25,6 @@
     "activeTab",
     "contextMenus"
   ],
-  "host_permissions": [
-    "https://aistudio.google.com/*"
-  ],
   "background": {
     "service_worker": "extension/src/background/index.ts",
     "type": "module"
